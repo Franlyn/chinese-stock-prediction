@@ -1,13 +1,18 @@
-#This project is used to project Chinese Stock Market.
+# Chinese Stocks Prediction
+The project gets data on all Chinese stocks, and uses a selecting method (described below) to select the stocks that have a bigger chance to grow in the next few days.
 
-#Language & Tools: Python, mySQL
+## Language & Tools:
+Python, mySQL
+Modulos: mysql.connector, tushare, time
 
-#Files:
-getstocks.py: used to get the code for all stocks I need
-db_stock.py: create mysql database for all stocks
+## Files:
+getstocks.py: used to get data for all stocks and insert into the sql table.
+eachstock_db.py: create table for each stock.
+updateStock.py: insert data of stocks into the tables created by eachstock.db every day.
+selection.py: Go through the data, find the stocks that satisfied the requirements mentioned below. If more than 30% of the stocks are selected, return None.
 
 
-#Selection Method:
+## Stocks Selecting Method:
 Take the most recent two days' data of a stock, i.e.: today & yesterday.
 The stock should satisfies the following requirements:
 * The stock sank more than 2% yesterday
