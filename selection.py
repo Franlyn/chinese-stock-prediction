@@ -49,22 +49,52 @@ def findStock():
     cursor.execute("SELECT code, name FROM stocktable")
     stocks = cursor.fetchall()
 
+    # list of stocks that satisfies the requirements
+    satisfied = list()
+
     # looping through all stock tables, select the ones that satisfy the thoery
     # write to log file
     for i in range(0, len(stocks)):
         prefix = (stocks[i][0])[:3]
-        print(prefix)
 
         if prefix != "000" and prefix != "002":
             continue
 
         # use the selection method to select stocks
         try:
-            # cursor
-            print("do something")
-        except Exception as e:
-            f.write("stock has no data")
+            # get data from the stock table
+            cursor.execute("SELECT * FROM stock_" + stocks[i][0]
+                + " WHERE date = %s OR date = %s ORDER BY date DESC"
+                % (today, yesterday))
+            curStock = cursor.fetchall()
 
+            if curStock == None or len(curStock) == 0:
+                continue
+            print(curStock)
+            
+
+            # record data
+            openT = float(curStock[0][1])
+            closeT = float(curStock[0][2])
+            p_changeT = float(curStock[0][3])
+
+            openY = float(curStock[1][1])
+            closeY = float(curStock[1][2])
+            p_changeY = float(curStock[1][3])
+
+            # apply the constraints
+            if openY < closeT and closeY > openT and p_changeY < -2 and p_changeT > 9.8:
+                f.write("# %s(%s):\nToday(%s): opens at %s, closes at %s;\nYesterday(%s): opens at %s, closes at %s.\n\n"
+                    % (stocks[i][1], stocks[1][0], today, openT, closeT, yesterday, openY, closeY))
+                satisfied.append(stocks[i]) # append the (code, name) tuple
+            
+        except Exception as e:
+            print("Selection error: " + str(e))
+
+    cnx.close()
+    cursor.close()
+    f.close()
+    return satisfied
 
 
 

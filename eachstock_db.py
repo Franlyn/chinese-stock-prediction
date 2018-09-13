@@ -72,6 +72,6 @@ def buildDB(start, end):
 
 
 if __name__=="__main__":
-    startDate = '2018-06-01'
-    endDate = '2018-06-05'
+    startDate = '2018-09-01'
+    endDate = '2018-09-13'
     buildDB(startDate, endDate)
