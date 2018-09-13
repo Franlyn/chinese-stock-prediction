@@ -8,10 +8,6 @@ import tushare
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
 
-# get today's date
-def getDate():
-    date = time.strftime('%Y%m%d', time.localtime(time.time()))
-    return date
 
 # create table for each stock with prefix 000 or 002 if not existed
 # insert data from start date to end date
